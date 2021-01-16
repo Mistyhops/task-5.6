@@ -10,7 +10,7 @@ bot = telebot.TeleBot(TOKEN)
 def start_bot(message: telebot.types.Message):
     text = '''Бот предназначен для получения курсов валют.\nДля получения курса введите сообщение в\
  формате:\n<валюта, которую вы продаете> <валюта, которую вы покупаете> <количество валюты>\nнапример,\
- "рубль доллар 1"'''
+ "доллар рубль 1.5"\nЕсли нужна помощь, наберите /help'''
     bot.send_message(message.chat.id, text)
 
 
@@ -18,7 +18,7 @@ def start_bot(message: telebot.types.Message):
 def help_bot(message: telebot.types.Message):
     text = '''Для получения текущего курса валюты введите сообщение в формате:
 <валюта, которую вы продаете> <валюта, которую вы покупаете> <количество валюты>
-например, "рубль доллар 1.6"\nСписок доступных команд:\n/help\n/values'''
+например, "доллар рубль 1.5"\nСписок доступных команд:\n/help\n/values'''
     bot.send_message(message.chat.id, text)
 
 
@@ -42,7 +42,7 @@ def converter(message: telebot.types.Message):
 
         amount = CurrConverter.amount_type(amount)
 
-        total_base = CurrConverter.convert(quote, base, amount)
+        total_base = CurrConverter.get_price(quote, base, amount)
     except ConvertionException as e:
         bot.reply_to(message, f'Ошибка пользователя.\n{e}')
     except Exception as e:
